@@ -59,13 +59,37 @@ void scanFile(istream& infile, ostream& outfile)
 // 	fail message has printed to the console.
 {
 //read infile one line at a time
+	if(!infile)
+	{
+		cout << "error opening file" << endl;
+		exit(-1);
+	}
+	do //read data for lexeme/token pairs
+	{
+		cout <<"in scanFile Loop"<< endl;
+		//insert lexemes
+		string line;
+		getline(infile, line);
+		cout << "line is" << line << endl;
 
-//delimit to get "chunks"
+		//delimit to get "chunks"
+		string word;
+		for(int i=0; i<line.size(); i++)
+		{
+		cout << "in word loop" << endl;
+		word.push_back(line[i]);
+		cout << word << endl;
+		}
+	}
+	while(!infile.eof());
+
+
 //identify chunks as keywords, types, or identifiers
 //add lexeme and token to vectors
 //continue search loop
 
 //print out to outputFile
+
 }
 };
 
@@ -73,19 +97,22 @@ int main()
 {
 	//inputting names of data files
 	string sourceCodeName;
-	cout << "Enter the name of the source code file: ";
-	cin >> sourceCodeName;
+	//cout << "Enter the name of the source code file: ";
+	//cin >> sourceCodeName;
+	ifstream sourceCode("sourceCodeInput.txt");
 
 	string lexemeDataFileName;
-	cout << "Enter the name of the lexeme data file: ";
-	cin >> lexemeDataFileName;
-	ifstream lexemeData(lexemeDataFileName);
+	//cout << "Enter the name of the lexeme data file: ";
+	//cin >> lexemeDataFileName;
+	ifstream lexemeData("tokenlexemedata.txt");
 
 	string outputFileName;
-	cout << "Enter the name of the output file: ";
-	cin >> outputFileName;
+	//cout << "Enter the name of the output file: ";
+	//cin >> outputFileName;
+	ofstream output("outputFile.txt");
 
 	LexAnalyzer lexAnalyzer(lexemeData);
+	lexAnalyzer.scanFile(sourceCode, output);
 	return 0;
 }
 
